@@ -22,8 +22,8 @@ class CreateChannelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user1_id' => 'int|exists:users,id',
-            'user2_id' => 'int|exists:users,id'
+            'user1' => 'int|exists:users,id',
+            'user2' => 'int|exists:users,id'
         ];
     }
 }

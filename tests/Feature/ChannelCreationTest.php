@@ -18,13 +18,9 @@ class ChannelCreationTest extends TestCase
         $user1 = User::find(1)->id;
         $user2 = User::find(2)->id;
 
-        $users = [
-            $user1,
-            $user2
-        ];
-
-        $service = new ChannelService();
-
-        $service->createChannel($users);
+        $this->post('/channel/create', [
+            'user1' => $user1,
+            'user2' => $user2
+        ]);
     }
 }

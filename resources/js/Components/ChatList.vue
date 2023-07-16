@@ -1,11 +1,11 @@
 <template>
     <div class="chat-list">
-      <div v-for="chat in chats" :key="chat.id" class="flex items-center p-3 border-b border-gray-300 hover:bg-gray-100">
+      <div v-for="chat in chatList" :key="chat.id" class="flex items-center p-3 border-b border-gray-300 hover:bg-gray-100">
         <div class="mr-4">
-          <img :src="chat.avatar" :alt="chat.name" class="w-12 h-12 rounded-full">
+          <img :src="chat.partners.icon" :alt="getPartnerName(chat.partners)" class="w-12 h-12 rounded-full">
         </div>
         <div>
-          <h4 class="text-lg font-semibold">{{ chat.name }}</h4>
+          <h4 class="text-lg font-semibold">{{ getPartnerName(chat.partners) }}</h4>
           <p class="text-gray-500">{{ chat.preview }}</p>
         </div>
       </div>
@@ -14,24 +14,41 @@
 
   <script>
   export default {
+
+      props: {
+          chats: {
+              type: Array
+          }
+      },
+
+      watch: {
+          chats: {
+              immediate: true,
+
+              handler(val) {
+                  this.chatList = val
+                  console.log(this.chatList)
+              }
+          }
+      },
+
     data() {
       return {
-        chats: [
-          {
-            id: 1,
-            name: 'John Doe',
-            avatar: 'https://example.com/avatar1.jpg',
-            preview: 'Hey, how are you?',
-          },
-          {
-            id: 2,
-            name: 'Jane Smith',
-            avatar: 'https://example.com/avatar2.jpg',
-            preview: 'Just finished the project!',
-          },
-          // Add more chat objects as needed
-        ],
+        chatList: [],
       };
     },
+
+    methods: {
+          getPartnerName(partnerList) {
+              if(partnerList.length === 0)
+                  return ''
+
+              else if (partnerList.length > 1)
+                  return ''
+
+              else
+                  return partnerList[0].name
+          }
+    }
   };
   </script>

@@ -11,7 +11,12 @@ class Repository implements RepositoryInterface
 
     }
 
-    public function create($data)
+    public function create()
+    {
+        $this->model->save();
+    }
+
+    public function fill($data)
     {
         return $this->model->fill($data)->save();
     }

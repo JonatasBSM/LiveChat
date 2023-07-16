@@ -8,7 +8,9 @@ interface RepositoryInterface
 
     public function find($primaryKey);
 
-    public function create($data);
+    public function create();
+
+    public function fill($data);
 
     public function update($primaryKey, $data);
 
