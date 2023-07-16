@@ -17,14 +17,15 @@ class MessageSentEvent implements ShouldBroadcast
 
     public User $user;
     public string $message;
+    public int $channelId;
     /**
      * Create a new event instance.
      */
-    public function __construct(User $user, string $message)
+    public function __construct(User $user, string $message, int $channelId)
     {
         $this->user = $user;
         $this->message = $message;
-
+        $this->channelId = $channelId;
     }
 
     /**
@@ -35,7 +36,7 @@ class MessageSentEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('my-channel'),
+            new PrivateChannel('channel'.$this->channelId),
         ];
     }
 }
