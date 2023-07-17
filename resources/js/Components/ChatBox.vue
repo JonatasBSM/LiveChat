@@ -16,6 +16,23 @@
 
   <script>
   export default {
+
+      props: {
+          selected: {
+              type: Number
+          }
+      },
+
+      watch: {
+          selected: {
+              immediate: true,
+
+              handler(val) {
+                this.selectedChannel = val
+              }
+          }
+      },
+
     data() {
       return {
         messages: [
@@ -32,6 +49,8 @@
           // Add more message objects as needed
         ],
         newMessage: '',
+
+        selectedChannel: null
       };
     },
     methods: {

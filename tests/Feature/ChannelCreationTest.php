@@ -17,10 +17,11 @@ class ChannelCreationTest extends TestCase
     {
         $user1 = User::find(1)->id;
         $user2 = User::find(2)->id;
-
-        $this->post('/channel/create', [
+        $this->post('/create', [
             'user1' => $user1,
             'user2' => $user2
         ]);
+
+        $this->assertDatabaseCount('channel_user', 2);
     }
 }

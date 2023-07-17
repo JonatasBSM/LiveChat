@@ -1,7 +1,7 @@
 <template lang="">
     <div class="flex flex-row w-full h-full">
-        <ChatList :chats="chatList" class="w-[25%] h-full border-r-4"/>
-        <ChatBox :chats="chatList" class="w-[75%] h-full"/>
+        <ChatList @selected-channel="receiveSelectedChannel" :chats="chatList" class="w-[25%] h-full border-r-4"/>
+        <ChatBox :selected="selectedChannel" class="w-[75%] h-full"/>
     </div>
 </template>
 <script>
@@ -24,12 +24,19 @@ export default {
 
     data() {
         return {
-            chatList: []
+            chatList: [],
+            selectedChannel: null
         }
     },
 
     mounted() {
         this.chatList = this.chats
+    },
+
+    methods: {
+        receiveSelectedChannel(channelId) {
+            this.selectedChannel = channelId
+        }
     }
 }
 </script>

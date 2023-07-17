@@ -1,6 +1,6 @@
 <template>
     <div class="chat-list">
-      <div v-for="chat in chatList" :key="chat.id" class="flex items-center p-3 border-b border-gray-300 hover:bg-gray-100">
+      <div v-for="chat in chatList" :key="chat.id" class="flex items-center p-3 border-b border-gray-300 hover:bg-gray-100" @click="selectChannel(chat.id)">
         <div class="mr-4">
           <img :src="chat.partners.icon" :alt="getPartnerName(chat.partners)" class="w-12 h-12 rounded-full">
         </div>
@@ -27,7 +27,9 @@
 
               handler(val) {
                   this.chatList = val
-                  console.log(this.chatList)
+                  this.selected = this.chatList[0] ?? null
+                  if(this.selected)
+                    this.selectChannel(this.selected.id)
               }
           }
       },
@@ -35,6 +37,7 @@
     data() {
       return {
         chatList: [],
+        selected: null
       };
     },
 
@@ -48,6 +51,11 @@
 
               else
                   return partnerList[0].name
+          },
+
+          selectChannel(channelId) {
+            this.selected = channelId
+            this.$emit('selected-channel', channelId)
           }
     }
   };
