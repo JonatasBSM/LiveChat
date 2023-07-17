@@ -3,17 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Events\MessageSentEvent;
-use Illuminate\Http\Request;
+use App\Http\Requests\BroadcastMessageRequest;
+use App\Services\Pusher\PusherService;
 use Illuminate\Support\Facades\Auth;
 
 class PusherController extends Controller
 {
-    public function broadcast(Request $request) {
 
-        $user = Auth::user();
-        $message = $request->get('message');
+    public function __construct(protected PusherService $pusherService)
+    {
 
-        broadcast(new MessageSentEvent($user, $message))->toOthers();
+    }
+
+    public function broadcast(BroadcastMessageRequest $request) {
+
+        $message = $request->validated();
+
+        $this->pusherService->broadcast($message);
 
     }
 

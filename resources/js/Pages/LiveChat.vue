@@ -1,6 +1,6 @@
 <template lang="">
     <div class="flex flex-row w-full h-full">
-        <ChatList @selected-channel="receiveSelectedChannel" :chats="chatList" class="w-[25%] h-full border-r-4"/>
+        <ChatList @selected-channel="receiveSelectedChannel" class="w-[25%] h-full border-r-4"/>
         <ChatBox :selected="selectedChannel" class="w-[75%] h-full"/>
     </div>
 </template>
@@ -34,8 +34,8 @@ export default {
     },
 
     methods: {
-        receiveSelectedChannel(channelId) {
-            this.selectedChannel = channelId
+        receiveSelectedChannel(channel) {
+            this.selectedChannel = channel
         }
     }
 }

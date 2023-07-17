@@ -1,8 +1,8 @@
 <template>
     <div class="custom-bg-color chat-screen flex flex-col">
       <div class="message-container flex flex-col">
-        <div v-for="message in messages" :key="message.id" :class="['message bg-green-100 p-4 ml-4 mb-4 w-fit h-fit max-w-1/2 flex flex-col rounded', message.sender === 'You' ? 'self-end' : '']">
-          <div class="message-content font-semibold">{{ message.text }}</div>
+        <div v-if="channel" v-for="message in channel.messages" :key="message.id" :class="['message bg-green-100 p-4 ml-4 mb-4 w-fit h-fit max-w-1/2 flex flex-col rounded', message.sender === 'You' ? 'self-end' : '']">
+          <div class="message-content font-semibold">{{ message.content }}</div>
           <div class="message-sender text-gray-500">{{ message.sender }}</div>
         </div>
       </div>
@@ -15,11 +15,13 @@
 </template>
 
   <script>
+import axios from 'axios';
+
   export default {
 
       props: {
           selected: {
-              type: Number
+              type: Object
           }
       },
 
@@ -28,42 +30,35 @@
               immediate: true,
 
               handler(val) {
-                this.selectedChannel = val
+                this.channel = val
+                console.log(this.channel)
               }
           }
       },
 
     data() {
       return {
-        messages: [
-          {
-            id: 1,
-            text: 'Hello!',
-            sender: 'John Doe',
-          },
-          {
-            id: 2,
-            text: 'Hi there!',
-            sender: 'Jane Smith',
-          },
-          // Add more message objects as needed
-        ],
         newMessage: '',
 
-        selectedChannel: null
+        channel: null
       };
     },
     methods: {
       sendMessage() {
+        console.log(this.$page.props.user.id)
         if (this.newMessage.trim() !== '') {
           const message = {
-            id: this.messages.length + 1,
-            text: this.newMessage,
-            sender: 'You',
+            channel_id: this.channel.id,
+            content: this.newMessage,
+            user_id: this.$page.props.user.id
           };
-          this.messages.push(message);
+
+          axios.post('/pusher/broadcast', {
+            ...message
+          })
           this.newMessage = '';
         }
+
       },
     },
   };

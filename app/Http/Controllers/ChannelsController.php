@@ -28,7 +28,8 @@ class ChannelsController extends Controller
         $user = User::find(1);
 
         return Inertia::render('LiveChat', [
-            'chats' => $this->channelsRepository->formattedChannels($user)
+            'chats' => $this->channelsRepository->formattedChannels($user),
+            'user' => $user
         ]);
 
     }

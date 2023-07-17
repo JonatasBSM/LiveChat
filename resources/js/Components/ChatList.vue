@@ -6,7 +6,7 @@
         </div>
         <div>
           <h4 class="text-lg font-semibold">{{ getPartnerName(chat.partners) }}</h4>
-          <p class="text-gray-500">{{ chat.preview }}</p>
+          <p class="text-gray-500">{{ chat.preview.content }}</p>
         </div>
       </div>
     </div>
@@ -15,34 +15,16 @@
   <script>
   export default {
 
-      props: {
-          chats: {
-              type: Array
-          }
-      },
-
-      watch: {
-          chats: {
-              immediate: true,
-
-              handler(val) {
-                  this.chatList = val
-                  this.selected = this.chatList[0] ?? null
-                  if(this.selected)
-                    this.selectChannel(this.selected.id)
-              }
-          }
-      },
-
     data() {
       return {
-        chatList: [],
+        chatList: this.$page.props.chats,
         selected: null
       };
     },
 
     methods: {
           getPartnerName(partnerList) {
+
               if(partnerList.length === 0)
                   return ''
 
@@ -55,7 +37,8 @@
 
           selectChannel(channelId) {
             this.selected = channelId
-            this.$emit('selected-channel', channelId)
+            let channel = this.chatList.find((chat) => chat.id == channelId)
+            this.$emit('selected-channel', channel)
           }
     }
   };
