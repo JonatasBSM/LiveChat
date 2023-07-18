@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('LiveChatChannel.{channelId}', function ($user) {
-    return  $user;
+Broadcast::channel('LiveChatChannel{channelId}', function ($user, $channelId) {
+    return $user->channels()->get()->contains(fn ($channel) => $channel->id == $channelId);
 });
