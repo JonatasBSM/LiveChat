@@ -1,6 +1,6 @@
 <template>
     <div class="chat-list">
-      <div v-for="chat in chatList" :key="chat.id" class="flex items-center p-3 border-b border-gray-300 hover:bg-gray-100" @click="selectChannel(chat.id)">
+      <div v-for="chat in chatList" :key="chat.id" class="flex items-center  h-16 p-3 border-b-[1px] border-gray-100  hover:bg-gray-100" @click="selectChannel(chat.id)">
         <div class="mr-4">
           <img :src="chat.partners.icon" :alt="getPartnerName(chat.partners)" class="w-12 h-12 rounded-full">
         </div>

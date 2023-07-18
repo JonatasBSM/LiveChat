@@ -1,6 +1,6 @@
 <template lang="">
     <div class="flex flex-row w-full h-full">
-        <ChatList @selected-channel="receiveSelectedChannel" class="w-[25%] h-full border-r-4"/>
+        <ChatList @selected-channel="receiveSelectedChannel" class="w-[25%] h-full"/>
         <ChatBox :selected="selectedChannel" class="w-[75%] h-full"/>
     </div>
 </template>
