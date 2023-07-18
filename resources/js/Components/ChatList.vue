@@ -52,7 +52,8 @@
                 return
 
               chatList.map((chat) => {
-                  const channel = Echo.channel('LiveChatChannel'+chat.id)
+                  const channel = Echo.private('LiveChatChannel'+chat.id)
+
                   channel.listen('MessageSentEvent', (event) => {
 
                     chat.messages.push(event.message)

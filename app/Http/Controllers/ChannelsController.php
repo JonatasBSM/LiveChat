@@ -27,6 +27,8 @@ class ChannelsController extends Controller
         //$user = Auth::user();
         $user = User::find(1);
 
+        Auth::login($user);
+
         return Inertia::render('LiveChat', [
             'chats' => $this->channelsRepository->formattedChannels($user),
             'user' => $user
