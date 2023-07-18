@@ -16,7 +16,11 @@ class Repository implements RepositoryInterface
         $this->model->save();
     }
 
-    public function fill($data)
+    public function fill($data) {
+        return $this->model->fill($data);
+    }
+
+    public function fillAndSave($data)
     {
         return $this->model->fill($data)->save();
     }

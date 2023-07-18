@@ -17,9 +17,14 @@
 
     data() {
       return {
-        chatList: this.$page.props.chats,
+        chatList: [],
         selected: null
       };
+    },
+
+    mounted() {
+        this.chatList = this.$page.props.chats
+        this.listenChannels(this.chatList)
     },
 
     methods: {
@@ -39,6 +44,21 @@
             this.selected = channelId
             let channel = this.chatList.find((chat) => chat.id == channelId)
             this.$emit('selected-channel', channel)
+          },
+
+          listenChannels(chatList) {
+
+              if(chatList.length == 0)
+                return
+
+              chatList.map((chat) => {
+                  const channel = Echo.channel('LiveChatChannel'+chat.id)
+                  channel.listen('MessageSentEvent', (event) => {
+
+                    chat.messages.push(event.message)
+                    chat.preview = event.message
+                  })
+              })
           }
     }
   };

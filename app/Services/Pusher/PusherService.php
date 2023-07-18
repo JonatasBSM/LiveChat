@@ -14,9 +14,10 @@ class PusherService {
 
     public function broadcast($message) {
 
-        $this->messagesRepository->fill($message);
-        dd('salve');
-        broadcast(new MessageSentEvent($message))->toOthers();
+        $newMessage = $this->messagesRepository->fill($message);
+        $newMessage->save();
+
+        broadcast(new MessageSentEvent($newMessage))->toOthers();
 
     }
 }

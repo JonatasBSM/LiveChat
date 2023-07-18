@@ -12,6 +12,8 @@ interface RepositoryInterface
 
     public function fill($data);
 
+    public function fillAndSave($data);
+
     public function update($primaryKey, $data);
 
     public function destroy($primaryKey);
