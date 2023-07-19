@@ -1,6 +1,6 @@
 <template lang="">
     <div class="flex flex-row w-full h-full">
-        <ChatList @selected-channel="receiveSelectedChannel" class="w-[25%] h-full"/>
+        <ChatList @selected-channel="receiveSelectedChannel" class="chatList w-[25%] h-full  border-r-[1px]"/>
         <ChatBox :selected="selectedChannel" class="w-[75%] h-full"/>
     </div>
 </template>
@@ -40,6 +40,8 @@ export default {
     }
 }
 </script>
-<style lang="">
-
+<style>
+    .chatList {
+        border-color: #4a5568;
+    }
 </style>
