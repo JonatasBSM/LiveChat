@@ -1,19 +1,31 @@
 <template lang="">
     <div class="flex flex-row w-full h-full">
-        <ChatList @selected-channel="receiveSelectedChannel" class="chatList w-[25%] h-full  border-r-[1px]"/>
-        <ChatBox :selected="selectedChannel" class="w-[75%] h-full"/>
+
+        <div :class=" mobileCheck ? (selectedChannel ? 'hidden' : 'chatList w-full h-full flex flex-col') : 
+            'flex flex-col chatList w-[30%] h-full border-r-[1px]'">
+    
+            <AuthContainer/>
+            <ChatList @selected-channel="receiveSelectedChannel"/>
+
+        </div>
+
+        <ChatBox :selected="selectedChannel" :class="
+        mobileCheck ? (!selectedChannel ? 'hidden' : 'w-full') : 'w-[70%] h-full'"/>
+
     </div>
 </template>
 <script>
 
 import ChatList from '@/Components/ChatList.vue';
 import ChatBox from '@/Components/ChatBox.vue'
+import AuthContainer from '@/Components/AuthContainer.vue'
 
 export default {
 
     components: {
         ChatList,
-        ChatBox
+        ChatBox,
+        AuthContainer
     },
 
     props: {
@@ -25,17 +37,26 @@ export default {
     data() {
         return {
             chatList: [],
-            selectedChannel: null
+            selectedChannel: null,
+            mobileCheck: false
         }
     },
 
     mounted() {
         this.chatList = this.chats
+        this.isMobile()
+        window.addEventListener('resize', this.isMobile);
     },
 
     methods: {
         receiveSelectedChannel(channel) {
             this.selectedChannel = channel
+            window.removeEventListener('resize', this.isMobile);
+        },
+
+        isMobile() {
+            this.mobileCheck = window.innerWidth <= 540 ? true: false
+            console.log(this.mobileCheck)
         }
     }
 }
@@ -44,4 +65,9 @@ export default {
     .chatList {
         border-color: #4a5568;
     }
+
+    .authUserContainer {
+        border-color: #4a5568;
+    }
+
 </style>

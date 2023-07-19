@@ -1,15 +1,5 @@
 <template>
-    <div class="chat-list">
-
-        <div class="flex items-center h-16 p-3 border-b-[2px] border-gray-100 bg-gray-900">
-            <div class="mr-4">
-                <img :src="authUser.icon" :alt="getPartnerName(authUser.name)" class="w-10 h-10 rounded-full">
-            </div>
-            <div>
-                <h4 class="text-base font-semibold text-white">{{ authUser.name }}</h4>
-            </div>
-        </div>
-
+    <div class="chat-list overflow-auto h-full">
         <div v-for="chat in chatList" :key="chat.id" class="chatDiv flex items-center h-16 p-3 border-b-[1px] border-gray-100 hover:bg-gray-800 cursor-pointer" @click="selectChannel(chat.id)">
             <div class="mr-4">
                 <img :src="chat.partners.icon" :alt="getPartnerName(chat.partners)" class="w-12 h-12 rounded-full">
