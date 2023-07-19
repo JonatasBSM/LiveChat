@@ -1,15 +1,15 @@
 <template lang="">
     <div class="flex flex-row w-full h-full">
 
-        <div :class=" mobileCheck ? (selectedChannel ? 'hidden' : 'chatList w-full h-full flex flex-col') : 
+        <div :class=" mobileCheck ? (selectedChannel ? 'hidden' : 'chatList w-full h-full flex flex-col') :
             'flex flex-col chatList w-[30%] h-full border-r-[1px]'">
-    
+
             <AuthContainer/>
             <ChatList @selected-channel="receiveSelectedChannel"/>
 
         </div>
 
-        <ChatBox :selected="selectedChannel" :class="
+        <ChatBox @unselect-channel="receiveUnselectChannelNotification" :selected="selectedChannel" :class="
         mobileCheck ? (!selectedChannel ? 'hidden' : 'w-full') : 'w-[70%] h-full'"/>
 
     </div>
@@ -57,6 +57,10 @@ export default {
         isMobile() {
             this.mobileCheck = window.innerWidth <= 540 ? true: false
             console.log(this.mobileCheck)
+        },
+
+        receiveUnselectChannelNotification() {
+            this.selectedChannel = null
         }
     }
 }
