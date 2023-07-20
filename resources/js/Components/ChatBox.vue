@@ -23,6 +23,7 @@
             >
                 <div class="message-content font-semibold text-white">{{ message.content }}</div>
                 <div class="message-sender text-gray-400">{{ message.sender }}</div>
+                <div class="message-time text-gray-400 text-xs text-right">{{ message.created_at }}</div>
             </div>
         </div>
         <div class="input-container bg-gray-800 h-16 flex items-center p-3">

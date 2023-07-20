@@ -10,7 +10,7 @@
         </div>
 
         <ChatBox @unselect-channel="receiveUnselectChannelNotification" :selected="selectedChannel" :class="
-        mobileCheck ? (!selectedChannel ? 'hidden' : 'w-full') : 'w-[70%] h-full'"/>
+        mobileCheck ? (!selectedChannel ? 'hidden' : 'w-full h-full') : 'w-[70%] h-full'"/>
 
     </div>
 </template>
