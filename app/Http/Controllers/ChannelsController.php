@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateChannelRequest;
-use App\Repositories\Interfaces\ChannelsInterface;
 use App\Services\Channel\ChannelService;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -11,13 +10,13 @@ use Inertia\Inertia;
 class ChannelsController extends Controller
 {
 
-    public function __construct(protected ChannelsInterface $channelsRepository, protected ChannelService $channelService)
+    public function __construct(protected ChannelService $channelService)
     {
     }
 
     public function create(CreateChannelRequest $request) {
-        $users = $request->validated();
-        $this->channelsRepository->createChannel($users);
+        $channel = $request->validated();
+        $this->channelService->createChannel($channel);
     }
 
     public function index() {

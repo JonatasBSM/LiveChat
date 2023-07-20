@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Exists;
 
 class CreateChannelRequest extends FormRequest
 {
@@ -23,7 +24,9 @@ class CreateChannelRequest extends FormRequest
     {
         return [
             'user1' => 'int|exists:users,id',
-            'user2' => 'int|exists:users,id'
+            'user2' => 'int|exists:users,id',
+            'icon' => 'nullable',
+            'category' => 'int|exists:categories,id',
         ];
     }
 }
