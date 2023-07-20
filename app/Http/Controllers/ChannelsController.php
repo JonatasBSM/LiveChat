@@ -12,6 +12,7 @@ class ChannelsController extends Controller
 
     public function __construct(protected ChannelService $channelService)
     {
+        
     }
 
     public function create(CreateChannelRequest $request) {

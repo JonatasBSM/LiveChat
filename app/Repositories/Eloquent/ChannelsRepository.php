@@ -16,20 +16,4 @@ class ChannelsRepository extends Repository implements ChannelsInterface
         parent::__construct( new Channel());
     }
 
-    public function createChannel($users) {
-
-        DB::beginTransaction();
-        try {
-            $channel = $this->model;
-            $this->create();
-            $channel->users()->sync($users);
-            DB::commit();
-
-        } catch (QueryException $exception) {
-            DB::rollback();
-            throw new \Exception($exception);
-        }
-
-    }
-
 }
