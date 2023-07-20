@@ -6,5 +6,4 @@ interface ChannelsInterface
 {
     public function createChannel($users);
 
-    public function formattedChannels($user);
 }

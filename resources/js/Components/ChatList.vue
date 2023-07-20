@@ -59,6 +59,10 @@ export default {
         },
 
         truncateText(text, limit) {
+            
+            if(!text)
+                return
+            
             if (text.length <= limit) {
                 return text;
             } else {

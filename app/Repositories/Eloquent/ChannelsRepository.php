@@ -32,8 +32,4 @@ class ChannelsRepository extends Repository implements ChannelsInterface
 
     }
 
-    public function formattedChannels($user) {
-        return $this->service->formattedChannel($user);
-    }
-
 }

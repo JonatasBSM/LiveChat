@@ -11,18 +11,26 @@ class Repository implements RepositoryInterface
 
     }
 
-    public function create()
-    {
-        $this->model->save();
-    }
-
     public function fill($data) {
         return $this->model->fill($data);
     }
 
-    public function fillAndSave($data)
+    public function create($data = null)
     {
-        return $this->model->fill($data)->save();
+        if($data)
+            return $this->model->fill($data)->save();
+        
+        return $this->model->save();
+    }
+
+    public function thenCreate($primaryKey,array $dataForUpdate, array $dataForSave) {
+
+        $instance = $this->find($primaryKey);
+
+        if($instance)
+            return $instance->update($dataForUpdate);
+
+        return $this->create($dataForSave);
     }
 
     public function update($primaryKey, $data)
@@ -40,25 +48,15 @@ class Repository implements RepositoryInterface
         return $this->model->find($primaryKey);
     }
 
-    public function all()
-    {
-        return $this->model->all();
-    }
-
-    public function thenCreate($primaryKey,array $dataForUpdate, array $dataForSave) {
-
-        $instance = $this->find($primaryKey);
-
-        if($instance)
-            return $instance->update($dataForUpdate);
-
-        return $this->create($dataForSave);
-    }
-
     public function findByName(string $name)
     {
         $row = $this->model->whereName($name)->first();
         return $row;
+    }
+
+    public function all()
+    {
+        return $this->model->all();
     }
 
     public function getColumn(string $name) {

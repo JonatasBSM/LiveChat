@@ -3,17 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateChannelRequest;
-use App\Models\User;
 use App\Repositories\Interfaces\ChannelsInterface;
-use App\Repositories\Interfaces\UsersInterface;
-use Illuminate\Http\Request;
+use App\Services\Channel\ChannelService;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class ChannelsController extends Controller
 {
 
-    public function __construct(protected ChannelsInterface $channelsRepository, protected UsersInterface $usersRepository)
+    public function __construct(protected ChannelsInterface $channelsRepository, protected ChannelService $channelService)
     {
     }
 
@@ -27,7 +25,7 @@ class ChannelsController extends Controller
         $user = Auth::user();
 
         return Inertia::render('LiveChat', [
-            'chats' => $this->channelsRepository->formattedChannels($user),
+            'chats' => $this->channelService->formattedChannel($user),
             'user' => $user
         ]);
 
