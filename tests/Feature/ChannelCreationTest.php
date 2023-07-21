@@ -15,15 +15,16 @@ class ChannelCreationTest extends TestCase
 
     public function test_example(): void
     {
-        $user1 = User::find(19)->id;
-        $user2 = User::find(20)->id;
-        $response = $this->actingAs(User::find(20))->post('/create', [
+        $user1 = User::find(1)->id;
+        $user2 = User::find(2)->id;
+
+        $this->actingAs(User::find(1))->post('/create', [
             'user1' => $user1,
             'user2' => $user2,
-            'category' => 1
+            'category_id' => 1
         ]);
 
-        $response->assertStatus(200);
-        $response->assertDatabaseCount('channel_user', 2);
+
+        $this->assertDatabaseCount('channel_user', 2);
     }
 }

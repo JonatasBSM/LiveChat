@@ -26,7 +26,7 @@ class CreateChannelRequest extends FormRequest
             'user1' => 'int|exists:users,id',
             'user2' => 'int|exists:users,id',
             'icon' => 'nullable',
-            'category' => 'int|exists:categories,id',
+            'category_id' => 'int|exists:categories,id',
         ];
     }
 }

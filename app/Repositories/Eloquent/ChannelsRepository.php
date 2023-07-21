@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class ChannelsRepository extends Repository implements ChannelsInterface
 {
-    public function __construct(protected ChannelService $service)
+    public function __construct()
     {
         parent::__construct( new Channel());
     }

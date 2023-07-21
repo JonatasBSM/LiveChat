@@ -25,20 +25,22 @@ class ChannelService
     }
 
     public function createChannel($newChannel) {
-        
+
+        $users = [$newChannel['user1'], $newChannel['user2']];
+        $category = ['category_id' => $newChannel['category_id']];
 
 
         DB::beginTransaction();
         try {
-            $filledChannel = $this->channelsRepository->fill($newChannel);
-            $filledChannel->create();
-            $filledChannel->users()->sync();
+            $filledChannel = $this->channelsRepository->fill($category);
+            $filledChannel->save();
+            $filledChannel->users()->sync($users);
             DB::commit();
 
         } catch (QueryException $exception) {
             DB::rollback();
             throw new \Exception($exception);
         }
-        
+
     }
 }
