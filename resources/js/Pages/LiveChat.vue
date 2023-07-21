@@ -1,16 +1,19 @@
 <template lang="">
     <div class="flex flex-row w-full h-full">
 
-        <div :class=" mobileCheck ? (selectedChannel ? 'hidden' : 'chatList w-full h-full flex flex-col') :
-            'flex flex-col chatList w-[30%] h-full border-r-[1px]'">
+        <FriendListModal @back-to-chatList="receiveBackFromChatList" :class=" mobileCheck ? (mobileScreenState == 'friendList' ? 'w-full h-full flex flex-col' : 'hidden') :
+            'flex flex-col chatList w-[30%] h-full border-r-[1px]'"/>
 
-            <AuthContainer/>
+        <div :class=" mobileCheck ? (mobileScreenState == 'chatList' ? 'chatList w-full h-full flex flex-col' : 'hidden') :
+            'flex flex-col chatList w-[35%] h-full border-r-[1px]'">
+
+            <AuthContainer @open-button-modal="receiveButtonModalState" />
             <ChatList @selected-channel="receiveSelectedChannel"/>
 
         </div>
 
         <ChatBox @unselect-channel="receiveUnselectChannelNotification" :selected="selectedChannel" :class="
-        mobileCheck ? (!selectedChannel ? 'hidden' : 'w-full h-full') : 'w-[70%] h-full'"/>
+        mobileCheck ? (mobileScreenState == 'chatBox' ? 'w-full h-full' :'hidden') : 'w-[65%] h-full'"/>
 
     </div>
 </template>
@@ -19,13 +22,15 @@
 import ChatList from '@/Components/ChatList.vue';
 import ChatBox from '@/Components/ChatBox.vue'
 import AuthContainer from '@/Components/AuthContainer.vue'
+import FriendListModal from '@/Components/Modals/FriendListModal.vue'
 
 export default {
 
     components: {
         ChatList,
         ChatBox,
-        AuthContainer
+        AuthContainer,
+        FriendListModal
     },
 
     props: {
@@ -38,7 +43,8 @@ export default {
         return {
             chatList: [],
             selectedChannel: null,
-            mobileCheck: false
+            mobileCheck: false,
+            mobileScreenState: 'chatList'
         }
     },
 
@@ -56,11 +62,24 @@ export default {
 
         isMobile() {
             this.mobileCheck = window.innerWidth <= 540 ? true: false
-            console.log(this.mobileCheck)
+
         },
 
         receiveUnselectChannelNotification() {
             this.selectedChannel = null
+            this.mobileScreenState = 'chatBox'
+        },
+
+        receiveButtonModalState(state) {
+            this.mobileScreenState = state
+        },
+
+        receiveBackFromChatList() {
+            this.mobileScreenState = 'chatList'
+        },
+
+        getMobileScreenState() {
+            return this.mobileScreenState
         }
     }
 }
