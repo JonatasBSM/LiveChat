@@ -75,7 +75,8 @@ export default {
     },
 
     sendBackToChatList() {
-      this.$emit('back-to-chatList')
+      this.$emit('mobile-screen-state', 'chatList')
+      this.$emit('screen-state', 'chatList')
     }
   },
 };

@@ -1,13 +1,13 @@
 <template lang="">
     <div class="flex flex-row w-full h-full">
 
-        <FriendListModal @back-to-chatList="receiveBackFromChatList" :class=" mobileCheck ? (mobileScreenState == 'friendList' ? 'w-full h-full flex flex-col' : 'hidden') :
-            'flex flex-col chatList w-[30%] h-full border-r-[1px]'"/>
+        <FriendListModal @screen-state="receiveScreenState" @mobile-screen-state="receiveMobileScreenState" :class=" mobileCheck ? (mobileScreenState == 'newChat' ? 'w-full h-full flex flex-col' : 'hidden') :
+            (ScreenState != 'chatList' ? 'flex flex-col chatList w-[35%] h-full border-r-[1px]' : 'hidden')"/>
 
         <div :class=" mobileCheck ? (mobileScreenState == 'chatList' ? 'chatList w-full h-full flex flex-col' : 'hidden') :
-            'flex flex-col chatList w-[35%] h-full border-r-[1px]'">
+            (ScreenState != 'newChat' ? 'flex flex-col chatList w-[35%] h-full border-r-[1px]' : 'hidden')">
 
-            <AuthContainer @open-button-modal="receiveButtonModalState" />
+            <AuthContainer @screen-state="receiveScreenState" @mobile-screen-state="receiveMobileScreenState" />
             <ChatList @selected-channel="receiveSelectedChannel"/>
 
         </div>
@@ -44,7 +44,8 @@ export default {
             chatList: [],
             selectedChannel: null,
             mobileCheck: false,
-            mobileScreenState: 'chatList'
+            mobileScreenState: 'chatList',
+            ScreenState: 'chatList'
         }
     },
 
@@ -57,6 +58,7 @@ export default {
     methods: {
         receiveSelectedChannel(channel) {
             this.selectedChannel = channel
+            this.mobileScreenState = 'chatBox'
             window.removeEventListener('resize', this.isMobile);
         },
 
@@ -67,20 +69,19 @@ export default {
 
         receiveUnselectChannelNotification() {
             this.selectedChannel = null
-            this.mobileScreenState = 'chatBox'
+            this.mobileScreenState = 'chatList'
+
         },
 
-        receiveButtonModalState(state) {
+        receiveMobileScreenState(state) {
             this.mobileScreenState = state
         },
 
-        receiveBackFromChatList() {
-            this.mobileScreenState = 'chatList'
+        receiveScreenState(state) {
+            this.ScreenState = state
         },
 
-        getMobileScreenState() {
-            return this.mobileScreenState
-        }
+
     }
 }
 </script>
