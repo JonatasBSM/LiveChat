@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LiveChatController;
 use App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\PusherController;
 use Illuminate\Foundation\Application;
@@ -26,10 +27,9 @@ Route::resource('users',\App\Http\Controllers\UsersController::class);
 
 Route::middleware('auth')->group(function () {
 
-    Route::controller(\App\Http\Controllers\ChannelsController::class)->group(function () {
-        Route::get('/', 'index');
-        Route::post('/create', 'create');
-    });
+    Route::get('/', [LiveChatController::class, 'index']);
+
+    Route::resource('channels',\App\Http\Controllers\ChannelsController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -2,6 +2,7 @@
 
 namespace App\Services\User;
 
+use App\Models\User;
 use App\Repositories\Interfaces\UsersInterface;
 
 class UserService
@@ -13,7 +14,9 @@ class UserService
     }
 
     public function search(string $column, string $query, int $authId) {
-        return $this->usersRepository->like($column, $query)
-            ->where('id', '!=', $authId);
+
+        return User::where($column, 'like', '%'.$query.'%')
+            ->where('id', '!=', $authId)->get();
+            
     }
 }

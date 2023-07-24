@@ -19,7 +19,7 @@ class ChannelCreationTest extends TestCase
         $channelUserCount = ChannelUser::all()->count();
         $channelCount = Channel::all()->count();
 
-        $this->actingAs(User::find(1))->post('/create', [
+        $this->actingAs(User::find(1))->post('/channels/create', [
             'auth_id' => $user1,
             'partner_id' => $user2,
             'icon' => null,

@@ -22,12 +22,10 @@ class ChannelsController extends Controller
 
     public function index() {
 
-        $user = Auth::user();
-
-        return Inertia::render('LiveChat', [
-            'chats' => $this->channelService->formattedChannel($user),
-            'user' => $user
-        ]);
-
+            return response()->json([
+                'status' => 200,
+                'chatList' => $this->channelService->formattedChannel(Auth::user())
+            ]);
+            
     }
 }

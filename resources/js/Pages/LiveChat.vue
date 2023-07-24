@@ -8,11 +8,11 @@
             (ScreenState != 'newChat' ? 'flex flex-col chatList w-[35%] h-full border-r-[1px]' : 'hidden')">
 
             <AuthContainer @screen-state="receiveScreenState" @mobile-screen-state="receiveMobileScreenState" />
-            <ChatList @selected-channel="receiveSelectedChannel"/>
+            <ChatList :key="channelReload" @selected-channel="receiveSelectedChannel"/>
 
         </div>
 
-        <ChatBox :partnerProp="channelPartner" @unselect-channel="receiveUnselectChannelNotification" :selected="selectedChannel" :class="
+        <ChatBox :partnerProp="channelPartner" @add-new-channel="addNewChannel" @unselect-channel="receiveUnselectChannelNotification" :selected="selectedChannel" :class="
         mobileCheck ? (mobileScreenState == 'chatBox' ? 'w-full h-full' :'hidden') : 'w-[65%] h-full'"/>
 
     </div>
@@ -46,7 +46,8 @@ export default {
             mobileCheck: false,
             mobileScreenState: 'chatList',
             ScreenState: 'chatList',
-            channelPartner: null
+            channelPartner: null,
+            channelReload: 0
         }
     },
 
@@ -87,8 +88,12 @@ export default {
         receivePartnerForNewChat(user) {
             this.channelPartner = user
             console.log('asda')
+        },
+        
+        addNewChannel() {
+            console.log('uepa')
+            this.channelReload++
         }
-
 
     }
 }

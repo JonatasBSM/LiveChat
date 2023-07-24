@@ -24,11 +24,19 @@ export default {
     },
 
     mounted() {
-        this.chatList = this.$page.props.chats
+        this.getChatList()
         this.listenChannels(this.chatList)
     },
 
     methods: {
+
+        getChatList() {
+            axios.get('/channels')
+            .then(response => {
+                this.chatList = response.data.chatList
+            })
+        },
+
         getPartnerName(partnerList) {
             if (partnerList.length === 0)
                 return '';

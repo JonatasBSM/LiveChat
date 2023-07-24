@@ -153,7 +153,8 @@ export default {
                     content: this.newMessage,
                     auth_id: this.$page.props.user.id,
                     partner_id: this.partner.id,
-                    category_id: 1
+                    category_id: 1,
+                    icon: null
                 };
 
                 axios.post('/pusher/broadcast/new-channel', {
@@ -162,6 +163,7 @@ export default {
                     this.channel = response.channel
                     const messageContainer = this.$refs.messageContainer;
                     messageContainer.scrollTop = messageContainer.scrollHeight;
+                    this.$emit('add-new-channel')
                 });
                 this.newMessage = '';
             }
@@ -202,8 +204,6 @@ export default {
 .message-container {
     overflow-y: auto;
 }
-
-
 
 .message-content {
     color: #ffffff; /* White message content text color */
