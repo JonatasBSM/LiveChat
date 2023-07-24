@@ -51,7 +51,7 @@ class ChannelService
             throw new \Exception($exception);
         }
 
-        return $filledChannel->id;
+        return $filledChannel;
 
     }
 }

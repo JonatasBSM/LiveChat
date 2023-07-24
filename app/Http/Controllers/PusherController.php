@@ -25,8 +25,9 @@ class PusherController extends Controller
     }
 
     public function newBroadcast(NewBroadcastRequest $request) {
-        $data = $request->validated();
 
+        $data = $request->validated();
+        $this->pusherService->newBroadcast($data);
     }
 
     public function listen() {

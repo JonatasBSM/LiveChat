@@ -11,7 +11,7 @@ class NewBroadcastRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,7 +25,8 @@ class NewBroadcastRequest extends FormRequest
             'content' => 'string',
             'auth_id' => 'int|exists:users,id',
             'partner_id' => 'int|exists:users,id',
-            'category_id' => 'int|exists:categories,id'
+            'category_id' => 'int|exists:categories,id',
+            'icon' => 'nullable'
         ];
     }
 }
