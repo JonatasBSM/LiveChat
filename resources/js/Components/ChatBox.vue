@@ -151,8 +151,9 @@ export default {
             if (this.newMessage.trim() !== '') {
                 const message = {
                     content: this.newMessage,
-                    user_id: this.$page.props.user.id,
-                    partner_id: this.partner.id
+                    auth_id: this.$page.props.user.id,
+                    partner_id: this.partner.id,
+                    category_id: 1
                 };
 
                 axios.post('/pusher/broadcast/new-channel', {

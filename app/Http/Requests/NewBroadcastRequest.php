@@ -3,16 +3,15 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Exists;
 
-class CreateChannelRequest extends FormRequest
+class NewBroadcastRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -23,10 +22,10 @@ class CreateChannelRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'content' => 'string',
             'auth_id' => 'int|exists:users,id',
             'partner_id' => 'int|exists:users,id',
-            'icon' => 'nullable',
-            'category_id' => 'int|exists:categories,id',
+            'category_id' => 'int|exists:categories,id'
         ];
     }
 }

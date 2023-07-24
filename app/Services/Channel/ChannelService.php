@@ -24,21 +24,31 @@ class ChannelService
         return $formattedChannels;
     }
 
-    public function createChannel($newChannel) {
-        
+    public function createChannel($data) {
 
+        $users = [
+            $data['auth_id'],
+            $data['partner_id']
+        ];
+
+        $channel = [
+            'icon' => $data['icon'],
+            'category_id' => $data['category_id']
+        ];
 
         DB::beginTransaction();
         try {
-            $filledChannel = $this->channelsRepository->fill($newChannel);
-            $filledChannel->create();
-            $filledChannel->users()->sync();
+            $filledChannel = $this->channelsRepository->fill($channel);
+            $filledChannel->save();
+            $filledChannel->users()->sync($users);
             DB::commit();
 
         } catch (QueryException $exception) {
             DB::rollback();
             throw new \Exception($exception);
         }
-        
+
+        return $filledChannel->id;
+
     }
 }

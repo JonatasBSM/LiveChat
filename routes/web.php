@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('pusher')->group(function () {
     Route::post('/broadcast', [PusherController::class, 'broadcast']);
+    Route::post('/broadcast/new-channel', [PusherController::class, 'newBroadcast']);
     Route::get('/listen', [PusherController::class, 'listen']);
 });
 
