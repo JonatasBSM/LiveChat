@@ -6,29 +6,30 @@
         <svg fill="white" xmlns="http://www.w3.org/2000/svg" class="text-2xl" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
       </div>
 
-      <div id="masqueico" class="search-existent-friend-container flex items-center p-3 border-b border-gray-700">
+      <div id="masqueico" class="search-existent-user-container flex items-center p-3 border-b border-gray-700">
         <input
           v-model="searchQuery"
-          @input="searchFriends"
-          placeholder="Search a friend"
+          @input="searchUsers"
+          placeholder="Search a user"
           class="flex-grow p-2 bg-gray-800 text-white rounded-l-md focus:outline-none"
         />
         <button
-          @click="addFriend"
+          @click="addUser"
           class="search-button rounded-r-md"
         >
           Search
         </button>
       </div>
 
-      <div class="friend-list-container">
+      <div  class="user-list-container">
         <ul class="search-results">
           <li
-            v-for="friend in filteredFriends"
-            :key="friend.id"
+            v-for="user in filteredUsers"
+            :key="user.id"
+            @click="openNewChannel(user)"
             class="flex items-center justify-between p-3 border-b border-gray-700 text-white"
           >
-            <span>{{ friend.name }}</span>
+            <span>{{ user.name }}</span>
           </li>
         </ul>
       </div>
@@ -41,43 +42,55 @@ export default {
   data() {
     return {
       searchQuery: "",
-      friendsList: [
-        { id: 1, name: "John Doe" },
-        { id: 2, name: "Jane Smith" },
-        { id: 3, name: "Alice Johnson" },
-        { id: 4, name: "Bob Anderson" },
-        // Add more sample friends here if needed
+      usersList: [
+
       ],
+        authUser: this.$page.props.user
     };
   },
   computed: {
-    filteredFriends() {
-      return this.friendsList.filter((friend) =>
-        friend.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+    filteredUsers() {
+
+      return this.usersList.filter((user) =>
+        user.name.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     },
   },
   methods: {
-    searchFriends() {
-      // No need to set searchResults; the filtered list is computed using filteredFriends()
+    searchUsers() {
+      if(!this.searchQuery) {
+        this.usersList = []
+        return
+      }
+      axios.get('/users/show', {
+          params: {
+              name: this.searchQuery,
+              auth_id: this.authUser.id
+          }
+      }).then(response => {
+          this.usersList = response.data.usersList
+      })
     },
-    addFriend() {
-      // Implement adding new friend logic here
-      // For example, you can call an API to add a new friend
-      // and then refresh the friendsList or use a state management library like Vuex.
+    addUser() {
+
       console.log("Adding new friend:", this.searchQuery);
       this.searchQuery = "";
     },
-    addFriendToSelected(friend) {
+    addUserToSelected(user) {
       // Implement adding the selected friend to the list of selected friends
       // For example, push it into the selectedFriends array.
-      console.log("Adding friend to selected list:", friend.name);
+      console.log("Adding friend to selected list:", user.name);
     },
 
     sendBackToChatList() {
       this.$emit('mobile-screen-state', 'chatList')
       this.$emit('screen-state', 'chatList')
-    }
+    },
+
+      openNewChannel(user) {
+        this.$emit('mobile-screen-state', user)
+        this.$emit('chat-box-state', user)
+      }
   },
 };
 </script>
@@ -92,8 +105,8 @@ export default {
   /* Your modal content styles */
 }
 
-.new-friend-container,
-.existent-friend-container {
+.new-user-container,
+.existent-user-container {
   /* Add any custom styles for the containers */
 }
 

@@ -19,18 +19,8 @@ class Repository implements RepositoryInterface
     {
         if($data)
             return $this->model->fill($data)->save();
-        
+
         return $this->model->save();
-    }
-
-    public function thenCreate($primaryKey,array $dataForUpdate, array $dataForSave) {
-
-        $instance = $this->find($primaryKey);
-
-        if($instance)
-            return $instance->update($dataForUpdate);
-
-        return $this->create($dataForSave);
     }
 
     public function update($primaryKey, $data)
@@ -48,10 +38,9 @@ class Repository implements RepositoryInterface
         return $this->model->find($primaryKey);
     }
 
-    public function findByName(string $name)
-    {
-        $row = $this->model->whereName($name)->first();
-        return $row;
+
+    public function like(string $column, string $query) {
+        return $this->model->where($column, 'like', '%'.$query.'%')->get();
     }
 
     public function all()
@@ -59,7 +48,5 @@ class Repository implements RepositoryInterface
         return $this->model->all();
     }
 
-    public function getColumn(string $name) {
-        return $this->model->pluck($name);
-    }
+
 }

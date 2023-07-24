@@ -16,9 +16,6 @@ interface RepositoryInterface
 
     public function destroy($primaryKey);
 
-    public function thenCreate($primaryKey,array $dataForUpdate, array $dataForSave);
+    public function like(string $column, string $query);
 
-    public function findByName(string $name);
-
-    public function getColumn(string $name);
 }

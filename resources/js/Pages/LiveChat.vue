@@ -1,7 +1,7 @@
 <template lang="">
     <div class="flex flex-row w-full h-full">
 
-        <FriendListModal @screen-state="receiveScreenState" @mobile-screen-state="receiveMobileScreenState" :class=" mobileCheck ? (mobileScreenState == 'newChat' ? 'w-full h-full flex flex-col' : 'hidden') :
+        <FriendListModal @screen-state="receiveScreenState" @mobile-screen-state="receiveMobileScreenState" @chat-box-state="receivePartnerForNewChat" :class=" mobileCheck ? (mobileScreenState == 'newChat' ? 'w-full h-full flex flex-col' : 'hidden') :
             (ScreenState != 'chatList' ? 'flex flex-col chatList w-[35%] h-full border-r-[1px]' : 'hidden')"/>
 
         <div :class=" mobileCheck ? (mobileScreenState == 'chatList' ? 'chatList w-full h-full flex flex-col' : 'hidden') :
@@ -12,7 +12,7 @@
 
         </div>
 
-        <ChatBox @unselect-channel="receiveUnselectChannelNotification" :selected="selectedChannel" :class="
+        <ChatBox :partnerProp="channelPartner" @unselect-channel="receiveUnselectChannelNotification" :selected="selectedChannel" :class="
         mobileCheck ? (mobileScreenState == 'chatBox' ? 'w-full h-full' :'hidden') : 'w-[65%] h-full'"/>
 
     </div>
@@ -45,7 +45,8 @@ export default {
             selectedChannel: null,
             mobileCheck: false,
             mobileScreenState: 'chatList',
-            ScreenState: 'chatList'
+            ScreenState: 'chatList',
+            channelPartner: null
         }
     },
 
@@ -59,6 +60,7 @@ export default {
         receiveSelectedChannel(channel) {
             this.selectedChannel = channel
             this.mobileScreenState = 'chatBox'
+            this.channelPartner = null
             window.removeEventListener('resize', this.isMobile);
         },
 
@@ -69,6 +71,7 @@ export default {
 
         receiveUnselectChannelNotification() {
             this.selectedChannel = null
+            this.channelPartner = null
             this.mobileScreenState = 'chatList'
 
         },
@@ -80,6 +83,11 @@ export default {
         receiveScreenState(state) {
             this.ScreenState = state
         },
+
+        receivePartnerForNewChat(user) {
+            this.channelPartner = user
+            console.log('asda')
+        }
 
 
     }

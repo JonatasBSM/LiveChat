@@ -22,6 +22,8 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::resource('users',\App\Http\Controllers\UsersController::class);
+
 Route::middleware('auth')->group(function () {
 
     Route::controller(\App\Http\Controllers\ChannelsController::class)->group(function () {
