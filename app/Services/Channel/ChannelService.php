@@ -2,6 +2,7 @@
 
 namespace App\Services\Channel;
 
+use App\Models\Channel;
 use App\Repositories\Interfaces\ChannelsInterface;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -38,9 +39,11 @@ class ChannelService
 
         DB::beginTransaction();
         try {
-            $filledChannel = $this->channelsRepository->fill($channel);
-            $filledChannel->save();
+
+
+            $filledChannel = Channel::create($channel);
             $filledChannel->users()->sync($users);
+            
             DB::commit();
 
         } catch (QueryException $exception) {

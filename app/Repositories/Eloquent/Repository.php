@@ -11,10 +11,6 @@ class Repository implements RepositoryInterface
 
     }
 
-    public function fill($data) {
-        return $this->model->fill($data);
-    }
-
     public function create($data = null)
     {
         if($data)
