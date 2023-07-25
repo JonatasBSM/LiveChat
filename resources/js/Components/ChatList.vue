@@ -24,7 +24,7 @@ export default {
     watch: {
         newChannel: {
             deep: true,
-            
+
             handler(val) {
                 this.getChatList(val)
             }
@@ -45,12 +45,15 @@ export default {
 
     methods: {
 
-        getChatList(activeChannel = null) {
+        getChatList(newChannel = null) {
             axios.get('/channels')
             .then(response => {
                 this.chatList = response.data.chatList
                 this.listenChannels(this.chatList)
-                this.selectChannel(activeChannel.id)
+
+                if(newChannel)
+                    this.selectChannel(newChannel.id)
+                
             })
         },
 
