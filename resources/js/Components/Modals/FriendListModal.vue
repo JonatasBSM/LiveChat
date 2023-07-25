@@ -88,7 +88,7 @@ export default {
     },
 
       openNewChannel(user) {
-        this.$emit('mobile-screen-state', user)
+        this.$emit('mobile-screen-state', 'chatBox')
         this.$emit('chat-box-state', user)
       }
   },
