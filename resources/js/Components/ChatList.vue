@@ -25,7 +25,7 @@ export default {
 
     mounted() {
         this.getChatList()
-        this.listenChannels(this.chatList)
+
     },
 
     methods: {
@@ -34,6 +34,7 @@ export default {
             axios.get('/channels')
             .then(response => {
                 this.chatList = response.data.chatList
+                this.listenChannels(this.chatList)
             })
         },
 
@@ -58,8 +59,8 @@ export default {
 
             chatList.map((chat) => {
                 const channel = Echo.private('LiveChatChannel' + chat.id)
-
                 channel.listen('MessageSentEvent', (event) => {
+
                     chat.messages.push(event.message)
                     chat.preview = event.message
                 })
@@ -67,10 +68,10 @@ export default {
         },
 
         truncateText(text, limit) {
-            
+
             if(!text)
                 return
-            
+
             if (text.length <= limit) {
                 return text;
             } else {

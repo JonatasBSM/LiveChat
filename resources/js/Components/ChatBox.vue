@@ -94,7 +94,7 @@ export default {
     watch: {
         selected: {
             immediate: true,
-
+            deep: true,
             handler(val) {
                 this.channel = val;
             },
@@ -103,7 +103,6 @@ export default {
         partnerProp: {
             handler(val) {
                 this.partner = val
-                console.log(val)
             }
         }
     },
@@ -160,14 +159,15 @@ export default {
                 axios.post('/pusher/broadcast/new-channel', {
                     ...message,
                 }).then((response) => {
-                    this.channel = response.channel
+                    this.partner = null
                     const messageContainer = this.$refs.messageContainer;
                     messageContainer.scrollTop = messageContainer.scrollHeight;
-                    this.$emit('add-new-channel')
+                    this.$emit('add-new-channel', response.data.channel)
                 });
                 this.newMessage = '';
             }
-        }
+        },
+
     },
 };
 </script>

@@ -8,7 +8,7 @@
             (ScreenState != 'newChat' ? 'flex flex-col chatList w-[35%] h-full border-r-[1px]' : 'hidden')">
 
             <AuthContainer @screen-state="receiveScreenState" @mobile-screen-state="receiveMobileScreenState" />
-            <ChatList :key="channelReload" @selected-channel="receiveSelectedChannel"/>
+            <ChatList :key="channelReload" @send-chat-list="getChatList" @selected-channel="receiveSelectedChannel"/>
 
         </div>
 
@@ -33,12 +33,6 @@ export default {
         FriendListModal
     },
 
-    props: {
-        chats: {
-            type: Array
-        }
-    },
-
     data() {
         return {
             chatList: [],
@@ -52,7 +46,6 @@ export default {
     },
 
     mounted() {
-        this.chatList = this.chats
         this.isMobile()
         window.addEventListener('resize', this.isMobile);
     },
@@ -89,7 +82,7 @@ export default {
             this.channelPartner = user
             console.log('asda')
         },
-        
+
         addNewChannel() {
             console.log('uepa')
             this.channelReload++

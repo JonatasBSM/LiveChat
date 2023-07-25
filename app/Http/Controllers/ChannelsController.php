@@ -12,7 +12,7 @@ class ChannelsController extends Controller
 
     public function __construct(protected ChannelService $channelService)
     {
-        
+
     }
 
     public function create(CreateChannelRequest $request) {
@@ -24,8 +24,8 @@ class ChannelsController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'chatList' => $this->channelService->formattedChannel(Auth::user())
+                'chatList' => $this->channelService->formattedChannels(Auth::user())
             ]);
-            
+
     }
 }

@@ -29,7 +29,7 @@ class PusherService {
         try {
 
             $newChannel = $this->channelService->createChannel($data);
-            
+
             $message = [
                 'content' => $data['content'],
                 'user_id' => $data['auth_id'],
@@ -47,5 +47,6 @@ class PusherService {
 
         broadcast(new MessageSentEvent($newMessage))->toOthers();
 
+        return $newChannel;
     }
 }

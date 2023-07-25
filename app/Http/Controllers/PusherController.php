@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\MessageSentEvent;
 use App\Http\Requests\BroadcastMessageRequest;
 use App\Http\Requests\NewBroadcastRequest;
+use App\Services\Channel\Facades\Channel;
 use App\Services\Pusher\PusherService;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,7 +28,13 @@ class PusherController extends Controller
     public function newBroadcast(NewBroadcastRequest $request) {
 
         $data = $request->validated();
-        $this->pusherService->newBroadcast($data);
+
+        $newChannel = $this->pusherService->newBroadcast($data);
+        $formattedChannel = Channel::formattedChannel($newChannel);
+        return response()->json([
+            'status' => 200,
+            'channel' => $formattedChannel
+        ]);
     }
 
     public function listen() {
