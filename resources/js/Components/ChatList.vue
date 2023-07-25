@@ -15,6 +15,22 @@
 <script>
 export default {
 
+    props: {
+        newChannel: {
+            type: Object
+        }
+    },
+
+    watch: {
+        newChannel: {
+            deep: true,
+            
+            handler(val) {
+                this.getChatList(val)
+            }
+        }
+    },
+
     data() {
         return {
             chatList: [],
@@ -25,16 +41,16 @@ export default {
 
     mounted() {
         this.getChatList()
-
     },
 
     methods: {
 
-        getChatList() {
+        getChatList(activeChannel = null) {
             axios.get('/channels')
             .then(response => {
                 this.chatList = response.data.chatList
                 this.listenChannels(this.chatList)
+                this.selectChannel(activeChannel.id)
             })
         },
 

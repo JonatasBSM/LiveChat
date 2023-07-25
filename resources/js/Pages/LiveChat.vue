@@ -8,7 +8,7 @@
             (ScreenState != 'newChat' ? 'flex flex-col chatList w-[35%] h-full border-r-[1px]' : 'hidden')">
 
             <AuthContainer @screen-state="receiveScreenState" @mobile-screen-state="receiveMobileScreenState" />
-            <ChatList :key="channelReload" @send-chat-list="getChatList" @selected-channel="receiveSelectedChannel"/>
+            <ChatList :newChannel="newChannel" @selected-channel="receiveSelectedChannel"/>
 
         </div>
 
@@ -41,7 +41,7 @@ export default {
             mobileScreenState: 'chatList',
             ScreenState: 'chatList',
             channelPartner: null,
-            channelReload: 0
+            newChannel: null
         }
     },
 
@@ -80,12 +80,10 @@ export default {
 
         receivePartnerForNewChat(user) {
             this.channelPartner = user
-            console.log('asda')
         },
 
-        addNewChannel() {
-            console.log('uepa')
-            this.channelReload++
+        addNewChannel(channel) {
+            this.newChannel = channel
         }
 
     }
