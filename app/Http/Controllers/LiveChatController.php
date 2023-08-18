@@ -16,11 +16,8 @@ class LiveChatController extends Controller
 
     public function index() {
 
-        $user = Auth::user();
 
-        return Inertia::render('LiveChat', [
-            'user' => $user
-        ]);
+        return Inertia::render('LiveChat');
 
     }
 }

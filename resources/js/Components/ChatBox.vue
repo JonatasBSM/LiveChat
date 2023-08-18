@@ -111,7 +111,7 @@ export default {
         return {
             newMessage: '',
             channel: null,
-            authUser: this.$page.props.user,
+            authUser: this.$page.props.auth.user,
             partner: null
         };
     },
@@ -122,7 +122,7 @@ export default {
                 const message = {
                     channel_id: this.channel.id,
                     content: this.newMessage,
-                    user_id: this.$page.props.user.id,
+                    user_id: this.$page.props.auth.user.id,
                 };
 
                 axios.post('/pusher/broadcast', {
@@ -150,7 +150,7 @@ export default {
             if (this.newMessage.trim() !== '') {
                 const message = {
                     content: this.newMessage,
-                    auth_id: this.$page.props.user.id,
+                    auth_id: this.$page.props.auth.user.id,
                     partner_id: this.partner.id,
                     category_id: 1,
                     icon: null

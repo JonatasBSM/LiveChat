@@ -35,7 +35,7 @@ export default {
         return {
             chatList: [],
             selected: null,
-            authUser: this.$page.props.user
+            authUser: this.$page.props.auth.user
         };
     },
 

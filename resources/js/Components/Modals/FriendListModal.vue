@@ -27,7 +27,7 @@
             v-for="user in filteredUsers"
             :key="user.id"
             @click="openNewChannel(user)"
-            class="flex items-center justify-between p-3 border-b border-gray-700 text-white"
+            class="cursor-pointer hover:bg-gray-800 flex items-center justify-between p-3 border-b border-gray-700 text-white"
           >
             <span>{{ user.name }}</span>
           </li>
@@ -45,7 +45,7 @@ export default {
       usersList: [
 
       ],
-        authUser: this.$page.props.user
+        authUser: this.$page.props.auth.user
     };
   },
   computed: {
