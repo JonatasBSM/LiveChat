@@ -16,6 +16,7 @@ class ChannelCreationTest extends TestCase
         $user1 = User::find(1)->id;
         $user2 = User::find(2)->id;
 
+
         $channelUserCount = ChannelUser::all()->count();
         $channelCount = Channel::all()->count();
 
@@ -28,6 +29,7 @@ class ChannelCreationTest extends TestCase
 
         $this->assertDatabaseCount('channel_user', $channelUserCount + 2);
         $this->assertDatabaseCount('channels', $channelCount + 1);
+
 
     }
 }
