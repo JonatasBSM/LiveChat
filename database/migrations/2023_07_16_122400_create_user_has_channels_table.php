@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users_has_channels', function (Blueprint $table) {
+        Schema::create('channel_user', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->foreignId("user_id")->constrained();
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_has_channels');
+        Schema::dropIfExists('channel_user');
     }
 };

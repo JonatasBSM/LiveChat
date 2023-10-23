@@ -1,5 +1,41 @@
 <template>
-    <div class="custom-bg-color chat-screen flex flex-col border-none">
+
+    <div v-if="partner" class="custom-bg-color chat-screen flex flex-col border-none">
+        <div class="partner-container flex items-center p-3 h-16 bg-gray-900 border-b-[2px] ">
+
+            <div class="backIconDiv mr-4">
+                <svg @click="unselectChannel" class="w-10 h-10" fill="white" id="Layer_1" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "/></svg>
+            </div>
+
+            <div class="mr-4">
+                <img src="" class="w-10 h-10 rounded-full">
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold text-white">{{ partner.name }}</h4>
+            </div>
+        </div>
+
+
+        <div ref="messageContainer" class="message-container flex flex-col flex-grow">
+
+        </div>
+
+        <div class="input-container bg-gray-800 h-16 flex items-center p-3">
+            <input
+                v-model="newMessage"
+                class="message-input flex-grow p-2 rounded-l-md h-full bg-gray-900 text-white"
+                placeholder="Type your message..."
+            >
+            <button @click="createChannel" class="send-button bg-green-500 text-white py-2 px-4 rounded-r-md h-full">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+
+    <div v-else class="custom-bg-color chat-screen flex flex-col border-none">
         <div class="partner-container flex items-center p-3 h-16 bg-gray-900 border-b-[2px] ">
 
             <div class="backIconDiv mr-4">
@@ -49,23 +85,34 @@ export default {
         selected: {
             type: Object,
         },
+
+        partnerProp: {
+            type: Object
+        }
     },
 
     watch: {
         selected: {
             immediate: true,
-
+            deep: true,
             handler(val) {
                 this.channel = val;
             },
         },
+
+        partnerProp: {
+            handler(val) {
+                this.partner = val
+            }
+        }
     },
 
     data() {
         return {
             newMessage: '',
             channel: null,
-            authUser: this.$page.props.user,
+            authUser: this.$page.props.auth.user,
+            partner: null
         };
     },
 
@@ -75,7 +122,7 @@ export default {
                 const message = {
                     channel_id: this.channel.id,
                     content: this.newMessage,
-                    user_id: this.$page.props.user.id,
+                    user_id: this.$page.props.auth.user.id,
                 };
 
                 axios.post('/pusher/broadcast', {
@@ -95,8 +142,32 @@ export default {
         },
 
         unselectChannel() {
+            this.partner = null
             this.$emit('unselect-channel')
-        }
+        },
+
+        createChannel() {
+            if (this.newMessage.trim() !== '') {
+                const message = {
+                    content: this.newMessage,
+                    auth_id: this.$page.props.auth.user.id,
+                    partner_id: this.partner.id,
+                    category_id: 1,
+                    icon: null
+                };
+
+                axios.post('/pusher/broadcast/new-channel', {
+                    ...message,
+                }).then((response) => {
+                    this.partner = null
+                    const messageContainer = this.$refs.messageContainer;
+                    messageContainer.scrollTop = messageContainer.scrollHeight;
+                    this.$emit('add-new-channel', response.data.channel)
+                });
+                this.newMessage = '';
+            }
+        },
+
     },
 };
 </script>
@@ -133,8 +204,6 @@ export default {
 .message-container {
     overflow-y: auto;
 }
-
-
 
 .message-content {
     color: #ffffff; /* White message content text color */

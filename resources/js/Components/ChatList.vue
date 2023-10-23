@@ -15,20 +15,48 @@
 <script>
 export default {
 
+    props: {
+        newChannel: {
+            type: Object
+        }
+    },
+
+    watch: {
+        newChannel: {
+            deep: true,
+
+            handler(val) {
+                this.getChatList(val)
+            }
+        }
+    },
+
     data() {
         return {
             chatList: [],
             selected: null,
-            authUser: this.$page.props.user
+            authUser: this.$page.props.auth.user
         };
     },
 
     mounted() {
-        this.chatList = this.$page.props.chats
-        this.listenChannels(this.chatList)
+        this.getChatList()
     },
 
     methods: {
+
+        getChatList(newChannel = null) {
+            axios.get('/channels')
+            .then(response => {
+                this.chatList = response.data.chatList
+                this.listenChannels(this.chatList)
+
+                if(newChannel)
+                    this.selectChannel(newChannel.id)
+                
+            })
+        },
+
         getPartnerName(partnerList) {
             if (partnerList.length === 0)
                 return '';
@@ -50,8 +78,8 @@ export default {
 
             chatList.map((chat) => {
                 const channel = Echo.private('LiveChatChannel' + chat.id)
-
                 channel.listen('MessageSentEvent', (event) => {
+
                     chat.messages.push(event.message)
                     chat.preview = event.message
                 })
@@ -59,10 +87,10 @@ export default {
         },
 
         truncateText(text, limit) {
-            
+
             if(!text)
                 return
-            
+
             if (text.length <= limit) {
                 return text;
             } else {

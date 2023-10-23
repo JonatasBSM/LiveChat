@@ -8,17 +8,12 @@ interface RepositoryInterface
 
     public function find($primaryKey);
 
-    public function fill($data);
-
-    public function create();
+    public function create($data = null);
 
     public function update($primaryKey, $data);
 
     public function destroy($primaryKey);
 
-    public function thenCreate($primaryKey,array $dataForUpdate, array $dataForSave);
+    public function like(string $column, string $query);
 
-    public function findByName(string $name);
-
-    public function getColumn(string $name);
 }
