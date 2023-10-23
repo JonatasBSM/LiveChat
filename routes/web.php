@@ -1,45 +1,15 @@
 <?php
 
 use App\Http\Controllers\LiveChatController;
-use App\Http\Controllers\ProfileController;
-use \App\Http\Controllers\PusherController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::resource('users',\App\Http\Controllers\UsersController::class);
 
 Route::middleware('auth')->group(function () {
-
-    Route::get('/', [LiveChatController::class, 'index']);
-
-    Route::resource('channels',\App\Http\Controllers\ChannelsController::class);
-
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-Route::prefix('pusher')->group(function () {
-    Route::post('/broadcast', [PusherController::class, 'broadcast']);
-    Route::post('/broadcast/new-channel', [PusherController::class, 'newBroadcast']);
-    Route::get('/listen', [PusherController::class, 'listen']);
+    require __DIR__.'/Home/home.php';
+    require __DIR__.'/Channel/channel.php';
+    require __DIR__.'/User/user.php';
+    require __DIR__.'/Pusher/pusher.php';
 });
 
 require __DIR__.'/auth.php';
+
